@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 body {
-  background-color: base-color("base-100") ;
+  background-color: theme('colors.base-300');
+  height: 100vh;
 }

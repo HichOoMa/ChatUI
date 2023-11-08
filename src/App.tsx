@@ -1,10 +1,12 @@
-import './App.css';
+import CenterLayout from './layout/center.layout';
 import Register from './pages/register/register';
 
 function App() {
   return (
     <>
-      <Register />
+      <CenterLayout>
+        <Register />
+      </CenterLayout>
     </>
   );
 }

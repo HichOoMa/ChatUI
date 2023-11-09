@@ -29,7 +29,7 @@ function Navbar() {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Fpng%2F19896008-male-user-avatar-icon-in-flat-design-style-person-signs-illustration&psig=AOvVaw1ryJt6SwbMYpKMWjhHcPFu&ust=1699569591982000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKjqnqC8tYIDFQAAAAAdAAAAABAE" />
+              <img src="https://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png" />
             </div>
           </label>
           <ul

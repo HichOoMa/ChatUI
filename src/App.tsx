@@ -3,12 +3,14 @@ import Register from './pages/register';
 import CenterLayout from './layout/center.layout';
 import MainLayout from './layout/main.layout';
 import Messages from './pages/messages';
+import Login from './pages/login';
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/register" element={<CenterLayout />}>
+        <Route path="/" element={<CenterLayout />}>
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           // add login route
         </Route>

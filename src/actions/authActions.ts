@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import api from './api';
 
-export function register(email: string, password: string) {
+export function UserRegister(username: string, email: string, password: string) {
   api
     .POST('/register', {
-      body: { email, password }
+      body: { username, email, password }
     })
     .then((data: any) => {
       localStorage.setItem('token', data.token);
+      window.location.href = '/';
     })
     .catch((error) => {
       // catch error

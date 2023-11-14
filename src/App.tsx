@@ -1,21 +1,23 @@
 import { Route, Routes } from 'react-router-dom';
 import Register from './pages/register';
-import CenterLayout from './layout/center.layout';
-import MainLayout from './layout/main.layout';
+import CenterLayout from './layout/centerLayout';
+import MainLayout from './layout/mainLayout';
 import Messages from './pages/messages';
 import Login from './pages/login';
+import ProtectedLayout from './layout/protectedLayout';
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<CenterLayout />}>
+        <Route element={<CenterLayout />}>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          // add login route
         </Route>
-        <Route path="/" element={<MainLayout />}>
-          <Route path="/chat" element={<Messages />} />
+        <Route element={<ProtectedLayout />}>
+          <Route element={<MainLayout />}>
+            <Route path="/chat" element={<Messages />} />
+          </Route>
         </Route>
         <Route path="*" element={<h1>404</h1>} />
       </Routes>

@@ -34,7 +34,7 @@ export default function Register() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6">
           <div className="flex gap-x-3">
             <div className="flex-1">
               <label className="block text-sm font-medium leading-6 ">Username</label>

@@ -5,6 +5,7 @@ interface IAuth {
   isAuthentificated: boolean;
   updateAuth: (isAuth: boolean) => void;
 }
+
 export const useAuth = create<IAuth>((set) => ({
   username: '',
   isAuthentificated: false,

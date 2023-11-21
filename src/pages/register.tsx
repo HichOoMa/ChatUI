@@ -1,24 +1,24 @@
 import { useState } from 'react';
-import { UserRegister } from '../actions/authActions';
+import { useAuthStore } from '../store/auth';
 
 export default function Register() {
   const [credentials, setCredentials] = useState({
-    username: '',
-    email: '',
-    password: '',
-    passwordConfirm: ''
+    username: 'test',
+    email: 'test2@gmail.com',
+    password: 'test',
+    passwordConfirm: 'test'
   });
-
+  const { register } = useAuthStore();
   const onChangeCredentials = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.id]: e.target?.value });
   };
 
-  const onSubmit = () => {
-    if (credentials.password !== credentials.passwordConfirm) {
-      // TODO: Notification
-      return;
-    }
-    UserRegister(credentials.username, credentials.email, credentials.password);
+  const onSubmit = async () => {
+    // if (credentials.password !== credentials.passwordConfirm) {
+    //   // TODO: Notification
+    //   return;
+    // }
+    register(credentials.username, credentials.email, credentials.password);
   };
   return (
     <div className="flex flex-col justify-center px-6 py-12 w-[700px] lg:px-12 lg:py-16 lg:bg-base-200 lg:rounded-lg">

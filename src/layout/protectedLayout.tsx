@@ -1,9 +1,9 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '../store/init';
+import { useAuthStore } from '../store/auth';
 import { useEffect } from 'react';
 
 const ProtectedLayout = () => {
-  const isAuthorized = useAuth((state) => state.isAuthentificated);
+  const isAuthorized = useAuthStore((state) => state.isAuthentificated);
   const navigate = useNavigate();
 
   useEffect(() => {

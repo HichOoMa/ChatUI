@@ -1,47 +1,57 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/rules-of-hooks */
 import { create } from 'zustand';
 import api from './api';
-import { useNavigate } from 'react-router-dom';
+import { persist } from 'zustand/middleware';
 
 interface IAuth {
   username: string;
-  isAuthentificated: boolean;
+  isAuth: boolean;
   register: (username: string, email: string, password: string) => void;
+  login: (username: string, password: string) => void;
+  test: () => void;
 }
 
-const redirect = (route: string) => {
-  const navigate = useNavigate();
-  navigate(route);
-};
+export const useAuthStore = create(
+  persist<IAuth>(
+    (set) => ({
+      username: '',
+      isAuth: false,
 
-export const useAuthStore = create<IAuth>((set) => ({
-  username: '',
-  isAuthentificated: false,
-  register: (username: string, email: string, password: string) => {
-    api
-      .post('/register', { username, email, password })
-      .then((response: any) => {
-        localStorage.setItem('token', response.data.token);
-        set({ isAuthentificated: true });
-        redirect('/chat');
-      })
-      .catch((error) => {
-        // TODO: catch error
-        // TODO: add notification
-        console.log(error);
-      });
-  },
-  login: (username: string, password: string) => {
-    api
-      .post('/login', { username, password })
-      .then((data: any) => {
-        localStorage.setItem('token', data.token);
-        window.location.href = '/';
-        set({ isAuthentificated: true });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-}));
+      register: (username: string, email: string, password: string) => {
+        api
+          .post('/register', { username, email, password })
+          .then((response: any) => {
+            localStorage.setItem('token', response.data.token);
+            set({ isAuth: true });
+            window.location.href = '/chat';
+          })
+          .catch((error) => {
+            // TODO: catch error
+            // TODO: add notification
+            console.log(error);
+          });
+      },
+
+      login: (username: string, password: string) => {
+        api
+          .post('/login', { username, password })
+          .then((data: any) => {
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
+            set({ isAuth: true });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+
+      test: () => {
+        set({ isAuth: true });
+        console.log(useAuthStore.getState().isAuth);
+      }
+    }),
+    {
+      name: 'auth-storage'
+    }
+  )
+);

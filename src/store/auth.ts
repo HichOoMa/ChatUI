@@ -16,7 +16,6 @@ export const useAuthStore = create(
     (set) => ({
       username: '',
       isAuth: false,
-
       register: (username: string, email: string, password: string) => {
         api
           .post('/register', { username, email, password })

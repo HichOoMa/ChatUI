@@ -10,7 +10,7 @@ const MainLayout = () => {
       </div>
       <div className="flex mt-16">
         <Sidebar />
-        <div className="">
+        <div className="ml-60 h-[calc(100vh-4rem)] w-full">
           <Outlet />
         </div>
       </div>

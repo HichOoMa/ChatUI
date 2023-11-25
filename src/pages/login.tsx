@@ -1,12 +1,7 @@
-import { useEffect } from 'react';
 import { useAuthStore } from '../store/auth';
 
 export default function Login() {
-  const { test, isAuth } = useAuthStore();
-
-  useEffect(() => {
-    console.log('isAuthentificated', isAuth);
-  }, [isAuth]);
+  const { test } = useAuthStore();
 
   return (
     <div className="flex flex-col justify-center px-6 py-12 lg:px-12 lg:py-16 lg:bg-base-200 lg:rounded-lg">

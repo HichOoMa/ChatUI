@@ -15,7 +15,7 @@ const showedText = (text: string, isName: boolean) => {
 const Friend = ({ name, lastMsg, profilePhoto, isOnline }: Props) => {
   return (
     <div
-      className="flex justify-start items-center gap-x-3 p-2 delay-75 cursor-pointer hover:bg-base-300"
+      className="flex justify-start items-center gap-x-3 p-2 delay-75 cursor-pointer hover:bg-base-200"
       title={name}>
       <div className={`avatar  ${isOnline ? 'online' : 'offline'}`}>
         <div className="h-10 rounded-full">

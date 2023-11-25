@@ -2,7 +2,7 @@ import Friend from './friend';
 
 const Sidebar = () => {
   return (
-    <div className="h-[calc(100vh-4rem)] w-60 fixed bg-base-200">
+    <div className="h-[calc(100vh-4rem)] w-60 fixed bg-base-100">
       <Friend
         name={'Haithem BenHammouda'}
         lastMsg={'test last message aaaaaaa'}

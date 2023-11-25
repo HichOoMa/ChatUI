@@ -7,7 +7,6 @@ const ProtectedLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('isAuthentificated', isAuth);
     if (!isAuth) {
       navigate('/');
     }

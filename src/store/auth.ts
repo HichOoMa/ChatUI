@@ -1,28 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { create } from 'zustand';
-import api from './api';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { create } from "zustand";
+import api from "./api";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { connectSocket } from "../websocket/init";
 
 interface IAuth {
   username: string;
   isAuth: boolean;
   register: (username: string, email: string, password: string) => void;
   login: (username: string, password: string) => void;
-  test: () => void;
 }
 
 export const useAuthStore = create(
   persist<IAuth>(
     (set) => ({
-      username: '',
+      username: "",
       isAuth: false,
       register: (username: string, email: string, password: string) => {
         api
-          .post('/register', { username, email, password })
+          .post("/register", { username, email, password })
           .then((response: any) => {
-            localStorage.setItem('token', response.data.token);
+            localStorage.setItem("token", response.data.token);
             set({ isAuth: true });
-            window.location.href = '/chat';
+            connectSocket();
+            window.location.href = "/chat";
           })
           .catch((error) => {
             // TODO: catch error
@@ -33,25 +34,21 @@ export const useAuthStore = create(
 
       login: (username: string, password: string) => {
         api
-          .post('/login', { username, password })
+          .post("/login", { username, password })
           .then((data: any) => {
-            localStorage.setItem('token', data.token);
-            window.location.href = '/';
+            localStorage.setItem("token", data.token);
             set({ isAuth: true });
+            connectSocket();
+            window.location.href = "/";
           })
           .catch((error) => {
             console.log(error);
           });
       },
-
-      test: () => {
-        set({ isAuth: true });
-        console.log(useAuthStore.getState().isAuth);
-      }
     }),
     {
-      name: 'auth-storage',
-      storage: createJSONStorage(() => sessionStorage)
-    }
-  )
+      name: "auth-storage",
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
 );

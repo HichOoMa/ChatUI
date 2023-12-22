@@ -18,10 +18,11 @@ export const connectSocket = () => {
   websocket.onmessage = (message) => {
     messageWsHandler(message);
   };
+  return websocket;
 };
 
-export const disconnectSocket = () => {
-  websocket.close();
+export const disconnectSocket = (ws: WebSocket) => {
+  ws.close();
 };
 
 export const sendMessage = (message: string, receiverId: string) => {

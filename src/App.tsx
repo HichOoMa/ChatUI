@@ -1,18 +1,21 @@
-import { Route, Routes } from 'react-router-dom';
-import Register from './pages/register';
-import CenterLayout from './layout/centerLayout';
-import MainLayout from './layout/mainLayout';
-import Messages from './pages/messages';
-import Login from './pages/login';
-import ProtectedLayout from './layout/protectedLayout';
+import { Route, Routes } from "react-router-dom";
+import Register from "./pages/register";
+import CenterLayout from "./layout/centerLayout";
+import MainLayout from "./layout/mainLayout";
+import Messages from "./pages/messages";
+import Login from "./pages/login";
+import ProtectedLayout from "./layout/protectedLayout";
+import PublicLayout from "./layout/protectedLayout";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route element={<CenterLayout />}>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+        <Route element={<PublicLayout />}>
+          <Route element={<CenterLayout />}>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
         </Route>
         <Route element={<ProtectedLayout />}>
           <Route element={<MainLayout />}>

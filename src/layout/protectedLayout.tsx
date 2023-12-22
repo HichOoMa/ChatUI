@@ -1,17 +1,21 @@
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/auth';
-import { useEffect } from 'react';
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/auth";
+import { useEffect } from "react";
+import { useWsStore } from "../store/websocket";
 
-const ProtectedLayout = () => {
+const PublicLayout = () => {
   const { isAuth } = useAuthStore();
   const navigate = useNavigate();
+  const { connectWebsocket } = useWsStore();
 
   useEffect(() => {
     if (!isAuth) {
-      navigate('/');
+      navigate("/");
+    } else {
+      connectWebsocket();
     }
   });
 
   return <Outlet />;
 };
-export default ProtectedLayout;
+export default PublicLayout;

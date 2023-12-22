@@ -3,11 +3,8 @@ import { useAuthStore } from "../store/auth";
 
 export default function Login() {
   const { login } = useAuthStore();
-  interface ILoginForm {
-    email: string;
-    password: string;
-  }
-  const [loginForm, setLoginForm] = useState<ILoginForm>({
+
+  const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
   });
@@ -17,9 +14,10 @@ export default function Login() {
       ...state,
       [e.target.name]: e.target.value,
     }));
+    console.log(loginForm);
   };
 
-  const loginSubmit = () => {
+  const onSubmitForm = () => {
     login(loginForm.email, loginForm.password);
   };
 
@@ -47,7 +45,7 @@ export default function Login() {
                 id="email"
                 name="email"
                 type="email"
-                onChange={() => onFieldChange}
+                onChange={(e) => onFieldChange(e)}
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -72,7 +70,7 @@ export default function Login() {
                 id="password"
                 name="password"
                 type="password"
-                onChange={() => onFieldChange}
+                onChange={(e) => onFieldChange(e)}
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -81,8 +79,8 @@ export default function Login() {
 
           <div>
             <button
-              type="submit"
-              onClick={() => loginSubmit}
+              type="button"
+              onClick={onSubmitForm}
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign in

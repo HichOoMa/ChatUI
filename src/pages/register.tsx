@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { useAuthStore } from '../store/auth';
+import { useState } from "react";
+import { useAuthStore } from "../store/auth";
 
 export default function Register() {
   const [credentials, setCredentials] = useState({
-    username: 'test',
-    email: 'test2@gmail.com',
-    password: 'test',
-    passwordConfirm: 'test'
+    username: "test",
+    email: "test2@gmail.com",
+    password: "test",
+    passwordConfirm: "test",
   });
   const { register } = useAuthStore();
   const onChangeCredentials = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.id]: e.target?.value });
   };
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     // if (credentials.password !== credentials.passwordConfirm) {
     //   // TODO: Notification
     //   return;
@@ -37,7 +37,9 @@ export default function Register() {
         <form className="space-y-6">
           <div className="flex gap-x-3">
             <div className="flex-1">
-              <label className="block text-sm font-medium leading-6 ">Username</label>
+              <label className="block text-sm font-medium leading-6 ">
+                Username
+              </label>
               <div className="mt-2">
                 <input
                   id="username"
@@ -50,7 +52,9 @@ export default function Register() {
               </div>
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-medium leading-6 ">Email address</label>
+              <label className="block text-sm font-medium leading-6 ">
+                Email address
+              </label>
               <div className="mt-2">
                 <input
                   id="email"
@@ -66,7 +70,9 @@ export default function Register() {
           <div className="flex gap-x-3">
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium leading-6">Password</label>
+                <label className="block text-sm font-medium leading-6">
+                  Password
+                </label>
               </div>
               <div className="mt-2">
                 <input
@@ -81,7 +87,9 @@ export default function Register() {
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium leading-6">Confirm Password</label>
+                <label className="block text-sm font-medium leading-6">
+                  Confirm Password
+                </label>
               </div>
               <div className="mt-2">
                 <input
@@ -98,9 +106,10 @@ export default function Register() {
 
           <div>
             <button
-              type="submit"
+              type="button"
               onClick={onSubmit}
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
               Sign Up
             </button>
           </div>
@@ -108,7 +117,10 @@ export default function Register() {
 
         <p className="mt-10 text-center text-sm text-gray-500">
           Already a member?
-          <a href="/" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+          <a
+            href="/"
+            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          >
             Try Sign In
           </a>
         </p>

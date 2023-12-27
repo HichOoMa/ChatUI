@@ -1,24 +1,26 @@
 import { create } from "zustand";
 import { connectSocket, disconnectSocket } from "../websocket/init";
 
-interface IWebsocket {
-  ws: WebSocket;
+interface IWsStore {
+  ws: WebSocket | null;
   connectWebsocket: () => void;
   disconnectWebsocket: () => void;
 }
 
-export const useWsStore = create((set, get) => ({
+export const useWsStore = create<IWsStore>((set, get) => ({
+  // track websocket instance
   ws: null,
   connectWebsocket: () => {
-    if ( ws === null ) {
-      let websocket= connectSocket()
-      set(() => ({ ws: websocket }))
+    const { ws } = get();
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      const websocket = connectSocket();
+      set(() => ({ ws: websocket }));
     }
   },
   disconnectWebsocket: () => {
-    if (ws !== null) {
-      const ws: WebSocket = get("ws");
-      disconnectSocket(ws)
+    const { ws } = get();
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      disconnectSocket(ws);
     }
   }
-}))
+}));

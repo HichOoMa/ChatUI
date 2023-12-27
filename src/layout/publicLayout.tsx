@@ -10,7 +10,7 @@ const ProtectedLayout = () => {
     if (isAuth) {
       navigate("/chat");
     }
-  });
+  }, []);
 
   return <Outlet />;
 };

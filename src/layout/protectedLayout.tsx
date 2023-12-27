@@ -14,7 +14,7 @@ const PublicLayout = () => {
     } else {
       connectWebsocket();
     }
-  });
+  }, []);
 
   return <Outlet />;
 };

@@ -23,7 +23,7 @@ const Message = ({ username, userphotoUrl, content, date, showDetails }: Props) 
           </time>
         </div>
       )}
-      <div className={`chat-bubble bg-primary ${!showDetails ? 'ml-[37.5px] ' : ''}`}>
+      <div className={`chat-bubble bg-primary ${!showDetails ? "ml-[37.5px] " : ""}`}>
         {content}
       </div>
     </div>

@@ -1,6 +1,8 @@
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useAuthStore } from "../store/auth";
 
 function Navbar() {
+  const { logout } = useAuthStore();
   return (
     <div className="navbar bg-base-100 shadow-lg">
       <div className="flex-1">
@@ -45,7 +47,9 @@ function Navbar() {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <button onClick={logout}>
+                <a>Logout</a>
+              </button>
             </li>
           </ul>
         </div>

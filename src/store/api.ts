@@ -1,11 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
-const token = localStorage.getItem('token');
+const authStorage = localStorage.getItem("auth-storage");
+const authObject = authStorage ? JSON.parse(authStorage) : null;
 
-const headers: { [k: string]: string } = { 'Content-Type': 'application/json' };
+const headers: { [k: string]: string } = { "Content-Type": "application/json" };
 
-if (token) {
-  headers.token = `${token}`;
+if (authObject) {
+  headers.token = `${authObject.state.token}`;
 }
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const api = axios.create({

@@ -5,29 +5,37 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 interface IAuth {
   username: string;
+  userId: string;
   isAuth: boolean;
   token: string;
   register: (username: string, email: string, password: string) => void;
   login: (username: string, password: string) => void;
   checkToken: () => void;
+  logout: () => void;
 }
+
+const initialState = { username: "", userId: "", isAuth: false, token: "" };
 
 export const useAuthStore = create(
   persist<IAuth>(
     (set, get) => ({
-      username: "",
-      isAuth: false,
-      token: "",
+      ...initialState,
       register: (username: string, email: string, password: string) => {
         api
           .post("/register", { username, email, password })
-          .then((response: any) => {
-            set({ isAuth: true, token: response.data.token });
+          .then((response) => {
+            set({
+              isAuth: true,
+              token: response.data.token,
+              username: response.data.username,
+              userId: response.data.username
+            });
             window.location.href = "/";
           })
           .catch((error) => {
             // TODO: catch error
             // TODO: add notification
+            set({ ...initialState });
             console.log(error);
           });
       },
@@ -36,10 +44,16 @@ export const useAuthStore = create(
         api
           .post("/login", { email, password })
           .then((response: any) => {
-            set({ isAuth: true, token: response.data.token });
+            set({
+              isAuth: true,
+              token: response.data.token,
+              username: response.data.username,
+              userId: response.data.username
+            });
             window.location.href = "/chat";
           })
           .catch((error) => {
+            set({ ...initialState });
             console.log(error);
           });
       },
@@ -49,18 +63,28 @@ export const useAuthStore = create(
         api
           .get("checkToken", { params: { token } })
           .then((response: any) => {
-            set({ isAuth: true, username: response.data.username });
+            set({
+              isAuth: true,
+              token: response.data.token,
+              username: response.data.username,
+              userId: response.data.username
+            });
           })
           .catch((error) => {
             if (error.status === 401) {
-              set({ token: "" });
+              set({ ...initialState });
             }
           });
       },
+
+      logout: () => {
+        set({ ...initialState });
+        window.location.href = "/";
+      }
     }),
     {
       name: "auth-storage",
-      storage: createJSONStorage(() => localStorage),
-    },
-  ),
+      storage: createJSONStorage(() => localStorage)
+    }
+  )
 );

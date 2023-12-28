@@ -15,40 +15,38 @@ interface IFriend {
   name: string;
 }
 
-interface IRealTimeStore {
-  userId: string;
+interface IProfileStore {
   messages: Map<string, IMessage[]>;
   friends: IFriend[];
   fetchMessages: (friendId: string) => void;
-  handleNewMessage: (message: IMessage) => void;
+  handleNewMessage: (message: IMessage, userId: string) => void;
   fetchFriendList: () => void;
   addFriend: (friendId: string) => void;
 }
 
-export const useRealTimeStore = create(
-  persist<IRealTimeStore>(
-    (set) => ({
-      userId: "",
+export const useProfileStore = create(
+  persist<IProfileStore>(
+    (set, get) => ({
       messages: new Map<string, IMessage[]>(),
       friends: [],
       fetchMessages: (friendId: string) => {
-        api.post<IMessage[]>("messages/", { _id: friendId }).then((res) => {
-          if (res.status === 200) {
+        api.get<IMessage[]>(`/messages/${friendId}`).then((res) => {
+          if (res.status === 200 && res.data.length > 0) {
             set((state) => {
-              const messages = new Map<string, IMessage[]>(state.messages);
-              messages.set(friendId, res.data);
+              const messages = get().messages;
+              messages[friendId] = res.data;
               return { messages: messages };
             });
           }
         });
       },
-      handleNewMessage: (message: IMessage) => {
+      handleNewMessage: (message: IMessage, userId: string) => {
         set((state) => {
           const messages = new Map<string, IMessage[]>(state.messages);
-          if (messages.has(state.userId)) {
-            messages.get(state.userId)?.push(message);
+          if (messages.has(userId)) {
+            messages.get(userId)?.push(message);
           } else {
-            messages.set(state.userId, [message]);
+            messages.set(userId, [message]);
           }
           return { messages: messages };
         });

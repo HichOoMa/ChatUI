@@ -1,10 +1,10 @@
-import messageWsHandler from "./messageWsHandler";
-import { wsMessage } from "../models/messages";
+import { useAuthStore } from "../store/auth";
+import { useProfileStore } from "../store/profile";
 
 let websocket: WebSocket;
 
 export const connectSocket = () => {
-  websocket = new WebSocket("ws://localhost:5000/ws", "echo-protocol");
+  websocket = new WebSocket("ws://localhost:5000/ws", [useAuthStore.getState().token]);
   websocket.onopen = () => {
     console.log("connected");
     console.log(websocket);
@@ -16,16 +16,12 @@ export const connectSocket = () => {
     console.log("error", err);
   };
   websocket.onmessage = (message) => {
-    messageWsHandler(message);
+    console.log("message", message);
+    useProfileStore.getState().handleNewMessage(message, useAuthStore.getState().userId);
   };
   return websocket;
 };
 
 export const disconnectSocket = (ws: WebSocket) => {
   ws.close();
-};
-
-export const sendMessage = (message: string, receiverId: string) => {
-  let messageObject: wsMessage = { opposite_id: receiverId, content: message };
-  websocket.send(JSON.stringify(messageObject));
 };

@@ -1,13 +1,29 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Register from "./pages/register";
 import CenterLayout from "./layout/centerLayout";
 import MainLayout from "./layout/mainLayout";
 import Messages from "./pages/messages";
 import Login from "./pages/login";
 import ProtectedLayout from "./layout/protectedLayout";
-import PublicLayout from "./layout/protectedLayout";
+import PublicLayout from "./layout/publicLayout";
+import { useEffect } from "react";
+import { useProfileStore } from "./store/profile";
+import { useAuthStore } from "./store/auth";
 
 function App() {
+  const navigate = useNavigate();
+  const { friends, fetchFriendList } = useProfileStore();
+  const { isAuth, checkToken } = useAuthStore();
+  useEffect(() => {
+    checkToken();
+    if (isAuth) {
+      if (!friends) {
+        fetchFriendList();
+      } else if (friends.length > 0) {
+        navigate(`/chat/${friends[0]._id}`);
+      }
+    }
+  }, []);
   return (
     <>
       <Routes>

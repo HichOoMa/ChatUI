@@ -5,6 +5,7 @@ interface IWsStore {
   ws: WebSocket | null;
   connectWebsocket: () => void;
   disconnectWebsocket: () => void;
+  sendMessage: (friendId: string, content: string) => void;
 }
 
 export const useWsStore = create<IWsStore>((set, get) => ({
@@ -12,7 +13,7 @@ export const useWsStore = create<IWsStore>((set, get) => ({
   ws: null,
   connectWebsocket: () => {
     const { ws } = get();
-    if (ws && ws.readyState === WebSocket.OPEN) {
+    if (!ws || ws.readyState === WebSocket.CLOSED) {
       const websocket = connectSocket();
       set(() => ({ ws: websocket }));
     }
@@ -21,6 +22,18 @@ export const useWsStore = create<IWsStore>((set, get) => ({
     const { ws } = get();
     if (ws && ws.readyState === WebSocket.OPEN) {
       disconnectSocket(ws);
+    }
+  },
+  sendMessage: (friendId, content) => {
+    const { ws } = get();
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(
+        JSON.stringify({
+          friend_id: friendId,
+          content: content
+        })
+      );
+      console.log("message sent", content);
     }
   }
 }));

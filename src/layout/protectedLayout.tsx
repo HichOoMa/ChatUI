@@ -3,19 +3,19 @@ import { useAuthStore } from "../store/auth";
 import { useEffect } from "react";
 import { useWsStore } from "../store/websocket";
 
-const PublicLayout = () => {
+const ProtectedLayout = () => {
   const { isAuth } = useAuthStore();
   const navigate = useNavigate();
-  const { connectWebsocket } = useWsStore();
+  const { connectWebsocket, ws } = useWsStore();
 
   useEffect(() => {
     if (!isAuth) {
       navigate("/");
-    } else {
+    } else if (!ws) {
       connectWebsocket();
     }
-  }, []);
+  }, [connectWebsocket, isAuth, navigate, ws]);
 
   return <Outlet />;
 };
-export default PublicLayout;
+export default ProtectedLayout;

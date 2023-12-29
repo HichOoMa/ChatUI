@@ -60,8 +60,12 @@ export const useAuthStore = create(
 
       checkToken: () => {
         const { token } = get();
+        if (!token) {
+          set({ ...initialState });
+          return;
+        }
         api
-          .get("checkToken", { params: { token } })
+          .get(`checkToken?token=${token}`)
           .then((response: any) => {
             set({
               isAuth: true,

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import api from "./api";
 
-interface IMessage {
+export interface IMessage {
   _id: string;
   sender_id: string;
   receiver_id: string;
@@ -19,7 +20,7 @@ interface IProfileStore {
   messages: Map<string, IMessage[]>;
   friends: IFriend[];
   fetchMessages: (friendId: string) => void;
-  handleNewMessage: (message: IMessage, userId: string) => void;
+  handleNewMessage: (message: unknown, userId: string) => void;
   fetchFriendList: () => void;
   addFriend: (friendId: string) => void;
 }
@@ -32,24 +33,20 @@ export const useProfileStore = create(
       fetchMessages: (friendId: string) => {
         api.get<IMessage[]>(`/messages/${friendId}`).then((res) => {
           if (res.status === 200 && res.data.length > 0) {
-            set((state) => {
-              const messages = get().messages;
-              messages[friendId] = res.data;
-              return { messages: messages };
-            });
+            const messages = get().messages;
+            messages[friendId] = res.data;
+            set({ messages: messages });
           }
         });
       },
-      handleNewMessage: (message: IMessage, userId: string) => {
-        set((state) => {
-          const messages = new Map<string, IMessage[]>(state.messages);
-          if (messages.has(userId)) {
-            messages.get(userId)?.push(message);
-          } else {
-            messages.set(userId, [message]);
-          }
-          return { messages: messages };
-        });
+      handleNewMessage: (message: any, userId: string) => {
+        const messages = get().messages;
+        if (messages[userId]) {
+          messages[userId].push(message);
+        } else {
+          messages[userId] = [message];
+        }
+        set({ messages: messages });
       },
       fetchFriendList: () => {
         api.get<IFriend[]>("/friends").then((res) => {

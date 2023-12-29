@@ -14,7 +14,6 @@ export default function Login() {
       ...state,
       [e.target.name]: e.target.value,
     }));
-    console.log(loginForm);
   };
 
   const onSubmitForm = () => {

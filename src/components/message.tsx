@@ -4,10 +4,12 @@ interface Props {
   content: string;
   date: Date;
   showDetails: boolean;
+  // true if the message is sent by current user
+  userSender: boolean;
 }
-const Message = ({ username, userphotoUrl, content, date, showDetails }: Props) => {
+const Message = ({ username, userphotoUrl, content, date, showDetails, userSender }: Props) => {
   return (
-    <div className="chat chat-start">
+    <div className={`chat ${userSender ? "chat-end" : "chat-start"}`}>
       {showDetails && (
         <div className="chat-image avatar">
           <div className="w-10 rounded-full">

@@ -1,9 +1,12 @@
 import { useState } from "react";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
-import { sendMessage } from "../websocket/init";
+import { useWsStore } from "../store/websocket";
+import { useParams } from "react-router-dom";
 
 const SendField = () => {
   const [msg, setMsg] = useState("");
+  const { sendMessage } = useWsStore();
+  const { id } = useParams();
   return (
     <div className="fixed bottom-0 right-0 w-[calc(100%-15rem)] p-4">
       <div className="w-full flex gap-5 bg-base-100 rounded-full p-2">
@@ -19,11 +22,10 @@ const SendField = () => {
         </button>
         <button
           onClick={() => {
-            sendMessage("test ws worked", "123");
+            id && sendMessage(id, msg);
           }}
           disabled={msg === ""}
-          className="btn btn-primary rounded-full"
-        >
+          className="btn btn-primary rounded-full">
           Send
         </button>
       </div>
